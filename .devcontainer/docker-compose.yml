@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  conhor_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: conhor_app
+    tty: true
+    ports:
+      - "8000:8000"
+    links:
+      - dbmy
+    volumes:
+      - ..\:/app
+    networks:
+      - app-network
+  dbmy:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: conhor_api
+      MYSQL_ROOT_PASSWORD: 1234
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

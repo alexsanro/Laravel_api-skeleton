@@ -1,0 +1,14 @@
+{
+    "name": "Conhor",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "service": "conhor_app",
+    "workspaceFolder": "/app",
+    "extensions": [
+        "felixfbecker.php-intellisense",
+        "esbenp.prettier-vscode"
+	],
+    "shutdownAction": "stopCompose",
+    "settings": {
+        "php.suggest.basic": false
+    }
+}
