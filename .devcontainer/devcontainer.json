@@ -1,14 +1,18 @@
 {
-    "name": "Conhor",
+    "name": "Api_rest",
     "dockerComposeFile": ["docker-compose.yml"],
-    "service": "conhor_app",
+    "service": "api_rest",
     "workspaceFolder": "/app",
     "extensions": [
         "felixfbecker.php-intellisense",
-        "esbenp.prettier-vscode"
-	],
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+    ],
     "shutdownAction": "stopCompose",
     "settings": {
-        "php.suggest.basic": false
+        "php.suggest.basic": false,
+        "remote.extensionKind": {
+            "ms-azuretools.vscode-docker": "ui"
+        }
     }
 }
