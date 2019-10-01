@@ -13,6 +13,9 @@
         "php.suggest.basic": false,
         "remote.extensionKind": {
             "ms-azuretools.vscode-docker": "ui"
+        },
+        "files.associations": {
+            "[Dd]ockerfile*": "dockerfile"
         }
     }
 }
