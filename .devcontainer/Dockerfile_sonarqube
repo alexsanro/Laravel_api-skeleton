@@ -1,4 +1,4 @@
-FROM sonarqube:7.9.1-community
+FROM sonarqube:7.9-community
 USER root
 
 RUN apt-get update -y && \
@@ -10,7 +10,7 @@ RUN rm -r *.jar
 RUN wget https://binaries.sonarsource.com/Distribution/sonar-php-plugin/sonar-php-plugin-3.2.0.4868.jar && \
     wget https://binaries.sonarsource.com/Distribution/sonar-xml-plugin/sonar-xml-plugin-2.0.1.2020.jar
 
-RUN chown -R sonarqube.sonarqube /opt/sonarqube
+#RUN chown -R sonarqube.sonarqube /opt/sonarqube
 
 WORKDIR /opt/sonarqube
 USER sonarqube
