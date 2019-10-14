@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
-    apt-get install -y php7.2 php7.2-xml php7.2-mysql php-mbstring zip curl npm php7.2-xdebug
+    apt-get install -y php7.2 php7.2-xml php7.2-mysql php-mbstring zip curl npm php7.2-xdebug openjdk-8-jdk
 RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
@@ -13,6 +13,11 @@ RUN curl --insecure -o ./sonarscanner.zip -L https://binaries.sonarsource.com/Di
     rm sonarscanner.zip && \
     mv sonar-scanner-3.0.3.778-linux /usr/lib/sonar-scanner && \
     ln -s /usr/lib/sonar-scanner/bin/sonar-scanner /usr/local/bin/sonar-scanner
+
+WORKDIR /usr/local/bin
+RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/6.0.6/flyway-commandline-6.0.6.tar.gz -o flyway-commandline-6.0.6.tar.gz \
+  && tar -xzf flyway-commandline-6.0.6.tar.gz --strip-components=1 \
+  && rm flyway-commandline-6.0.6.tar.gz
 
 EXPOSE 8000
 WORKDIR /app
