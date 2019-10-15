@@ -1,0 +1,33 @@
+task cleanProject(type: Delete){
+    delete '.scannerwork', 'vendor', 'build'
+}
+
+task composer(type: Exec){
+    executable "sh"
+    args "-c", "composer install"
+}
+
+task phpUnit(type: Exec){
+    executable "sh"
+    args "-c", "./vendor/bin/phpunit"
+}
+
+task serverStart(type: Exec){
+    executable "sh"
+    args "-c", "php artisan serve --host=0.0.0.0 --port=8000"
+}
+
+task cleanDatabase(type: Exec){
+    executable "sh"
+    args "-c", "flyway -configFiles=./database/sql/flyway.conf clean -user=root -password=1234"
+}
+
+task migrateDatabase(type: Exec) {
+    executable "sh"
+    args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=root -password=1234"
+}
+
+task sonar(type: Exec){
+    executable "sh"
+    args "-c", "sonar-scanner"
+}
