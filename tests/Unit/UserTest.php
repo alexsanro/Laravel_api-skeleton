@@ -32,7 +32,7 @@ class UserTest extends TestCase
             ]
         );
 
-        $response->assertStatus(422)->assertJsonFragment(['errors' => ['name' => "The name field is required."]]);
+        $response->assertStatus(422)->assertSessionHasErrors(['name' => "The name field is required."]);
     }
 
     /**
