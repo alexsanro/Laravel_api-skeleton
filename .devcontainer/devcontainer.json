@@ -4,7 +4,7 @@
     "service": "api_rest",
     "workspaceFolder": "/app",
     "extensions": [
-        "felixfbecker.php-intellisense",
+        "bmewburn.vscode-intelephense-client",
         "esbenp.prettier-vscode",
         "ms-azuretools.vscode-docker"
     ],
