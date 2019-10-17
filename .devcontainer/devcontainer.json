@@ -4,7 +4,7 @@
     "service": "api_rest",
     "workspaceFolder": "/app",
     "extensions": [
-        "onecentlin.laravel-extension-pack",
+        "bmewburn.vscode-intelephense-client",
         "esbenp.prettier-vscode",
         "ms-azuretools.vscode-docker"
     ],

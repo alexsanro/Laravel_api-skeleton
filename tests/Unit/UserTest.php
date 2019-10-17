@@ -8,10 +8,8 @@ use Tests\TestCase;
 class UserTest extends TestCase
 {
 
-    public function setUp(): void
-    {
+    public function setup(): void{
         parent::setUp();
-
         $this->withHeaders([
             'Accept' => 'aplication/json',
             'Content-type' => 'aplication/json',
@@ -32,7 +30,7 @@ class UserTest extends TestCase
             ]
         );
 
-        $response->assertStatus(422)->assertSessionHasErrors(['name' => "The name field is required."]);
+        $response->assertStatus(422)->assertJsonValidationErrors(['name' => "The name field is required."]);
     }
 
     /**
