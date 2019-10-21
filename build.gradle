@@ -4,7 +4,7 @@ task cleanProject(type: Delete){
 
 task composer(type: Exec){
     executable "sh"
-    args "-c", "composer install"
+    args "-c", "composer install && php artisan passport:install"
 }
 
 task phpUnit(type: Exec){
