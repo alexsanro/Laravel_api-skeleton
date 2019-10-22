@@ -4,9 +4,11 @@ namespace Tests\Unit;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\User;
 
 class UserSignUpTest extends TestCase
 {
+    use RefreshDatabase;
 
     public function setup(): void{
         parent::setUp();
@@ -74,6 +76,107 @@ class UserSignUpTest extends TestCase
                     ->assertJsonValidationErrors(
                         ['email' => "The email must be a valid email address."]
                     );
+    }
+
+    /**
+     * SIGNUP ERROR EMAIL CAMP UNIQUE
+     */
+    public function testSignUpValidationErrorEmailUnique(){        
+        $user = factory(User::class)->create();
+
+        $response = $this->json(
+            'POST',
+            '/api/signup',
+            [
+                'name' => 'nombreprueba',
+                'email' => 'prueba@prueba.com',
+                'password' => '1234567890123'
+            ]
+        );
+
+        $response->assertStatus(422)
+                    ->assertJsonValidationErrors(
+                        ['email' => "The email has already been taken."]
+                    );
+    }
+
+    /**
+     * SIGNUP ERROR PASSWORD CAMP REQUIRED
+     */
+    public function testSignUpValidationErrorPasswordRequired(){
+        $response = $this->json(
+            'POST',
+            '/api/signup',
+            [
+                'name' => 'nombre',
+                'email' => 'prueba@prueba.com',
+                'password' => ''
+            ]
+        );
+
+        $response->assertStatus(422)
+                    ->assertJsonValidationErrors(
+                        ['password' => "The password field is required."]
+                    );
+    }
+
+    /**
+     * SIGNUP ERROR PASSWORD CAMP REQUIRED
+     */
+    public function testSignUpValidationErrorPasswordMinValue(){
+        $response = $this->json(
+            'POST',
+            '/api/signup',
+            [
+                'name' => 'nombre',
+                'email' => 'prueba@prueba.com',
+                'password' => 'hola'
+            ]
+        );
+
+        $response->assertStatus(422)
+                    ->assertJsonValidationErrors(
+                        ['password' => "The password must be between 6 and 12 characters."]
+                    );
+    }
+
+    /**
+     * SIGNUP ERROR PASSWORD CAMP REQUIRED
+     */
+    public function testSignUpValidationErrorPasswordMaxValue(){
+        $response = $this->json(
+            'POST',
+            '/api/signup',
+            [
+                'name' => 'nombre',
+                'email' => 'prueba@prueba.com',
+                'password' => 'hola123456781'
+            ]
+        );
+
+        $response->assertStatus(422)
+                    ->assertJsonValidationErrors(
+                        ['password' => "The password must be between 6 and 12 characters."]
+                    );
+    }
+
+    /**
+     * SIGNUP ERROR PASSWORD CAMP REQUIRED
+     */
+    public function testSignUpOk(){
+        $response = $this->json(
+            'POST',
+            '/api/signup',
+            [
+                'name' => 'nombre',
+                'email' => 'prueba@prueba.com',
+                'password' => 'hola12345'
+            ]
+        );
+
+        $response->assertJson(
+            ["message" => "Successfully created user!"]
+        );
     }
 
     /**

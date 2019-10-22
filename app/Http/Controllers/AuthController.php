@@ -17,7 +17,7 @@ class AuthController extends Controller
         $request->validate([
             'name'     => 'required|string',
             'email'    => 'required|string|email|unique:users',
-            'password' => 'required|string'
+            'password' => 'required|string|between:6,12'
         ]);
 
         $user = new User([
