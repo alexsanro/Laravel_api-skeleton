@@ -93,7 +93,7 @@ class UserTest extends TestCase
     }
 
     /**
-     * 
+     * Test para deslogearse correctamente
      */
     public function testLogoutOk(){
         $user = factory(User::class)->create([
@@ -111,11 +111,11 @@ class UserTest extends TestCase
         );
 
         $json_response = $response->json();
-        
+
         $response = $this->withHeaders([
-            'Authorization' => 'Berare '.$json_response['access_token']
+            'Authorization' => 'Bearer '.$json_response['access_token']
         ])->get('/api/logout');
 
-        print_r($response);
+        $response->assertStatus(200)->assertJsonFragment(["message" => "Successfully logged out"]);
     }
 }
