@@ -2,13 +2,13 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\User;
 
 class UserTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function setup(): void{
         parent::setUp();
@@ -63,6 +63,7 @@ class UserTest extends TestCase
 
     /**
      * Test comprueba que pasa la validación
+     * Devuelve el token de autentificación
      */
     public function testLoginAuthOk(){
         $user = factory(User::class)->create([
@@ -79,11 +80,42 @@ class UserTest extends TestCase
             ]
         );
 
-        print_r($response->json());
+        $response->assertStatus(200)->assertJsonStructure(['access_token']);
+    }
 
-        $response->assertStatus(401)
-                    ->assertExactJson(
-                        ['message' => 'Unauthorized']
-                    );
+    /**
+     * Test de logout erroneo (usuario no logeado)
+     */
+    public function testLogoutError(){
+        $response = $this->get('/api/logout');
+
+        $response->assertStatus(401)->assertJsonFragment(["error" => "No se pue"]);
+    }
+
+    /**
+     * 
+     */
+    public function testLogoutOk(){
+        $user = factory(User::class)->create([
+            'email' => 'prueba@prueba.com',
+            'password' => bcrypt('pruebasss')
+        ]);
+
+        $response = $this->json(
+            'POST',
+            '/api/login',
+            [
+                'email' => 'prueba@prueba.com',
+                'password' => 'pruebasss'
+            ]
+        );
+
+        $json_response = $response->json();
+        
+        $response = $this->withHeaders([
+            'Authorization' => 'Berare '.$json_response['access_token']
+        ])->get('/api/logout');
+
+        print_r($response);
     }
 }
