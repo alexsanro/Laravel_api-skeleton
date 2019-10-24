@@ -6,7 +6,8 @@
     "extensions": [
         "bmewburn.vscode-intelephense-client",
         "esbenp.prettier-vscode",
-        "ms-azuretools.vscode-docker"
+        "ms-azuretools.vscode-docker",
+        "richardwillis.vscode-gradle"
     ],
     "shutdownAction": "stopCompose",
     "settings": {

@@ -1,33 +1,67 @@
 task cleanProject(type: Delete){
+    group = 'App'
+    description = 'Elimina las carpetas generadas dinamicamente'
+
     delete '.scannerwork', 'vendor', 'build'
 }
 
 task composer(type: Exec){
+    group = 'App'
+    description = 'Descarga las librerias PHP'
+
     executable "sh"
-    args "-c", "composer install && php artisan passport:install"
+    args "-c", "composer install"
 }
 
 task phpUnit(type: Exec){
+    group = 'Tests'
+    description = 'Ejecuta los tests de PHP'
+
     executable "sh"
     args "-c", "./vendor/bin/phpunit"
 }
 
 task serverStart(type: Exec){
+    group = 'App'
+    description = 'Levanta el servidor'
+
     executable "sh"
     args "-c", "php artisan serve --host=0.0.0.0 --port=8000"
 }
 
 task cleanDatabase(type: Exec){
+    group = 'Database'
+    description = 'Limpia la base de datos'
+
     executable "sh"
     args "-c", "flyway -configFiles=./database/sql/flyway.conf clean -user=root -password=1234"
 }
 
 task migrateDatabase(type: Exec) {
+    group = 'Database'
+    description = 'Hace la migración de los sql'
+
+    dependsOn cleanDatabase
+
     executable "sh"
     args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=root -password=1234"
 }
 
 task sonar(type: Exec){
+    group = 'Tests'
+    description = 'Ejecuta sonar-scanner'
+
     executable "sh"
     args "-c", "sonar-scanner"
+}
+
+task passportToken(type: Exec){
+    group = 'Database'
+    description = 'Token para passport PHP'
+
+    dependsOn composer
+    dependsOn migrateDatabase
+
+    executable "sh"
+    args "-c", "php artisan passport:install"
 }

@@ -118,4 +118,31 @@ class UserTest extends TestCase
 
         $response->assertStatus(200)->assertJsonFragment(["message" => "Successfully logged out"]);
     }
+
+    /**
+     * Devuelve los datos del usuario logado
+     */
+    public function testGetUserData(){
+        $user = factory(User::class)->create([
+            'email' => 'prueba@prueba.com',
+            'password' => bcrypt('pruebasss')
+        ]);
+
+        $response = $this->json(
+            'POST',
+            '/api/login',
+            [
+                'email' => 'prueba@prueba.com',
+                'password' => 'pruebasss'
+            ]
+        );
+
+        $json_response = $response->json();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer '.$json_response['access_token']
+        ])->get('/api/user');
+
+        $response->assertStatus(200)->assertJsonStructure([]);
+    }   
 }
