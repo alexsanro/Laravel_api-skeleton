@@ -2,8 +2,10 @@ pipeline {
     agent any
     stages {
         stage('Docker'){
-            def dockerfile='Dockerfile'
-            def customImage=docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./tools") 
+            steps{
+                def dockerfile='Dockerfile'
+                def customImage=docker.build("my-image:${env.BUILD_ID}", "-f ${dockerfile} ./tools") 
+            }
         }
         stage('Test') {
             steps {
