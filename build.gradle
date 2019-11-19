@@ -42,9 +42,12 @@ task migrateDatabase(type: Exec) {
     description = 'Hace la migración de los sql'
 
     dependsOn cleanDatabase
+    
+    environment "DB_HOST", "localhost" //TODO: SET ENVIRONMENT  WITH IF PARA JENKISNFILE
+    environment "DB_DATABASE", "api_database"
 
     executable "sh"
-    args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=root -password=1234"
+    args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=$DB_USER -password=$DB_PASSWORD"
 }
 
 task sonar(type: Exec){
