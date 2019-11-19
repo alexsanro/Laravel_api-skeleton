@@ -1,11 +1,11 @@
-task cleanProject(type: Delete){
+task cleanProjectFolders(type: Delete){
     group = 'App'
     description = 'Elimina las carpetas generadas dinamicamente'
 
     delete '.scannerwork', 'vendor', 'build'
 }
 
-task composer(type: Exec){
+task composerInstall(type: Exec){
     group = 'App'
     description = 'Descarga las librerias PHP'
 
@@ -13,7 +13,7 @@ task composer(type: Exec){
     args "-c", "composer install"
 }
 
-task phpUnit(type: Exec){
+task phpUnitTests(type: Exec){
     group = 'Tests'
     description = 'Ejecuta los tests de PHP'
 
@@ -47,7 +47,7 @@ task migrateDatabase(type: Exec) {
     args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=root -password=1234"
 }
 
-task sonar(type: Exec){
+task sonarScanner(type: Exec){
     group = 'Tests'
     description = 'Ejecuta sonar-scanner'
 
@@ -59,7 +59,8 @@ task passportToken(type: Exec){
     group = 'Database'
     description = 'Token para passport PHP'
 
-    dependsOn composer
+    dependsOn composerInstall
+    dependsOn cleanDatabase
     dependsOn migrateDatabase
 
     executable "sh"
