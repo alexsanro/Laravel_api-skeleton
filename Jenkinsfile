@@ -13,7 +13,7 @@ pipeline {
             steps {
                 script{
                     customImage.inside {
-                        sh("gradle cleanDatabase", label: "Composer")
+                        sh(script: "gradle cleanDatabase", label: "Composer")
                     }
                 }
             }
