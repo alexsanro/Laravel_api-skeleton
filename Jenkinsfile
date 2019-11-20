@@ -9,12 +9,11 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Build') {
             steps {
                 script{
                     customImage.inside {
-                        sh 'node --version'
-                        sh 'svn --version'
+                        sh("gradle cleanDatabase", label: "Composer")
                     }
                 }
             }
