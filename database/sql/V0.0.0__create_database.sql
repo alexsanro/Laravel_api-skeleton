@@ -1,2 +1,1 @@
-DROP SCHEMA IF EXISTS `api_database` ;
-CREATE SCHEMA `api_database` COLLATE utf8_general_ci ;
+CREATE DATABASE IF NOT EXISTS `api_database` COLLATE utf8_general_ci;
