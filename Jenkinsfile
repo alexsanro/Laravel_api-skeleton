@@ -19,7 +19,8 @@ pipeline {
                 script{
                     customImage.inside {
                         withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD')]){
-                            sh(script: "gradle cleanDatabase", label: "Composer")
+                            //sh(script: "gradle cleanDatabase", label: "Composer")
+                            sh "mysql -uroot -p1234 -hmysql_db_dev_tools"
                         }
                     }
                 }
