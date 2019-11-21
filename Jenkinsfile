@@ -17,7 +17,7 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    customImage.inside("--network dev_tools-network") {
+                    customImage.inside("--network ${NETWORK}") {
                         withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD')]){
                             //sh(script: "gradle cleanDatabase", label: "Composer")
                             sh "mysql -uroot -p1234 -hmysql_db_dev_tools"
