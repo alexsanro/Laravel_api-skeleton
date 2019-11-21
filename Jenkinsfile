@@ -3,6 +3,7 @@ pipeline {
     environment {
         DB_HOST = 'mysql_db_dev_tools'
         DB_DATABASE = 'api_database'
+        DB_PORT = 3307
     }
     stages {
         stage('Docker'){
