@@ -18,10 +18,29 @@ pipeline {
             steps {
                 script{
                     customImage.inside("--network ${NETWORK}") {
+                        sh(script: "gradle composer", label: "Composer install")
+                    }
+                }
+            }
+        }
+        stage('Database') {
+            steps {
+                script{
+                    customImage.inside("--network ${NETWORK}") {                        
                         withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD')]){
-                            //sh(script: "gradle cleanDatabase", label: "Composer")
-                            sh "mysql -uroot -p1234 -hmysql_db_dev_tools"
+                            sh(script: "gradle cleanDatabase", label: "Composer")
+                            sh(script: "gradle migrateDatabase", label: "Composer")
                         }
+                    }
+                }
+            }
+        }
+        stage('Tests PHP') {
+            steps {
+                script{
+                    customImage.inside("--network ${NETWORK}") {                        
+                        sh(script: "gradle passportToken", label: "Token passport API")
+                        sh(script: "gradle phpUnit", label: "Test phpUnit")
                     }
                 }
             }
