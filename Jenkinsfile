@@ -18,6 +18,7 @@ pipeline {
             steps {
                 script{
                     customImage.inside("--network ${NETWORK}") {
+                        sh(script: "gradle generateEnv", label: "Generar .env")
                         sh(script: "gradle composer", label: "Composer install")
                     }
                 }
@@ -27,7 +28,7 @@ pipeline {
             steps {
                 script{
                     customImage.inside("--network ${NETWORK}") {                        
-                        withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD')]){
+                        withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USERNAME', passwordVariable: 'DB_PASSWORD')]){
                             sh(script: "gradle cleanDatabase", label: "Composer")
                             sh(script: "gradle migrateDatabase", label: "Composer")
                         }

@@ -16,7 +16,7 @@ services:
     networks:
       - app-network
     environment:
-      DB_USER: root
+      DB_USERNAME: root
       DB_PASSWORD: 1234
       DB_HOST: api_db
   api_db:

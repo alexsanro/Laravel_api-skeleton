@@ -15,8 +15,8 @@ class database {
             this.databaseName = System.getenv("DB_DATABASE");
         }
 
-        if(System.getenv("DB_USER")){
-            this.databaseUser = System.getenv("DB_USER"); 
+        if(System.getenv("DB_USERNAME")){
+            this.databaseUser = System.getenv("DB_USERNAME"); 
         }
 
         if(System.getenv("DB_PASSWORD")){
@@ -106,4 +106,13 @@ task passportToken(type: Exec){
 
     executable "sh"
     args "-c", "php artisan passport:install"
+}
+
+task generateEnv(type: Exec){
+    group = 'Build'
+    description = 'Genera el archivo .env'
+
+    executable "sh"
+    args "-c", "copy .env.example .env"
+    args "-c", "php artisan key:generate"
 }
