@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        DB_HOST = 'mysql_db_dev_tools'
+        DB_DATABASE = 'api_database'
+    }
     stages {
         stage('Docker'){
             steps{
@@ -13,7 +17,9 @@ pipeline {
             steps {
                 script{
                     customImage.inside {
-                        sh(script: "gradle cleanDatabase", label: "Composer")
+                        withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USER', passwordVariable: 'DB_PASSWORD')]){
+                            sh(script: "gradle cleanDatabase", label: "Composer")
+                        }
                     }
                 }
             }
