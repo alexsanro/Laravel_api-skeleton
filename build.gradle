@@ -108,11 +108,11 @@ task passportToken(type: Exec){
     args "-c", "php artisan passport:install"
 }
 
-task generateEnv(type: Exec){
+task generateEnvFile(type: Exec){
     group = 'Build'
     description = 'Genera el archivo .env'
 
     executable "sh"
-    args "-c", "copy .env.example .env"
+    args "-c", "cp .env.example .env"
     args "-c", "php artisan key:generate"
 }

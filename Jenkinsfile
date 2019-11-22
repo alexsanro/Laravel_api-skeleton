@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script{
                     customImage.inside("--network ${NETWORK}") {
-                        sh(script: "gradle generateEnv", label: "Generar .env")
+                        sh(script: "gradle generateEnvFile", label: "Generar .env")
                         sh(script: "gradle composer", label: "Composer install")
                     }
                 }
