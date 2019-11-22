@@ -113,6 +113,5 @@ task generateEnvFile(type: Exec){
     description = 'Genera el archivo .env'
 
     executable "sh"
-    args "-c", "cp .env.example .env"
-    args "-c", "php artisan key:generate"
+    args "-c", "cp .env.example .env && php artisan key:generate"
 }

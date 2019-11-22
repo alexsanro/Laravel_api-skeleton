@@ -16,10 +16,9 @@ pipeline {
         stage('Build') {
             steps {
                 script{
-                    sh(script: "echo ${NETWORK}", label: "Echo network")
                     customImage.inside("--network ${NETWORK}") {
-                        sh(script: "gradle generateEnvFile", label: "Generar .env")
                         sh(script: "gradle composer", label: "Composer install")
+                        sh(script: "gradle generateEnvFile", label: "Generar .env")
                     }
                 }
             }
