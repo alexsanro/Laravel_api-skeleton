@@ -3,7 +3,6 @@ pipeline {
     environment {
         DB_HOST = 'mysql_db_dev_tools'
         DB_DATABASE = 'api_database'
-        DB_PORT = 3307
     }
     stages {
         stage('Docker'){
@@ -14,7 +13,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Build') {
+        stage('Build') {
             steps {
                 script{
                     sh(script: "echo ${NETWORK}", label: "Echo network")
@@ -24,7 +23,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('Database') {
             steps {
                 script{
