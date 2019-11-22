@@ -14,7 +14,7 @@ pipeline {
                 }
             }
         }
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 script{
                     sh(script: "echo ${NETWORK}", label: "Echo network")
@@ -24,7 +24,7 @@ pipeline {
                     }
                 }
             }
-        }
+        }*/
         stage('Database') {
             steps {
                 script{
