@@ -43,8 +43,8 @@ pipeline {
                     customImage.inside("--network ${NETWORK}") {                        
                         withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USERNAME', passwordVariable: 'DB_PASSWORD')]){
                             sh(script: "gradle passportToken", label: "Token passport API")
+                            sh(script: "gradle phpUnit", label: "Test phpUnit")
                         }
-                        sh(script: "gradle phpUnit", label: "Test phpUnit")
                     }
                 }
             }
