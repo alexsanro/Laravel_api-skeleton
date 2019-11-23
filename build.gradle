@@ -115,3 +115,11 @@ task generateEnvFile(type: Exec){
     executable "sh"
     args "-c", "cp .env.example .env && php artisan key:generate"
 }
+
+task montaje(type: GradleBuild){
+    group = 'Build'
+    description = 'Montaje automatico de la aplicación cuando es descargada de cero'
+
+    tasks = ['composer', 'generateEnvFile',
+                'cleanDatabase', 'migrateDatabase', 'passportToken']
+}

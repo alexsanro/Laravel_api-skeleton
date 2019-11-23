@@ -28,7 +28,6 @@ pipeline {
                 script{
                     customImage.inside("--network ${NETWORK}") {                        
                         withCredentials([usernamePassword(credentialsId: 'database_credentials_ci', usernameVariable: 'DB_USERNAME', passwordVariable: 'DB_PASSWORD')]){
-                            sh(script: "mysql -uroot -p1234 -hmysql_db_dev_tools -e 'SHOW databases;'", label: "Database")
                             sh(script: "gradle cleanDatabase", label: "Composer")
                             sh(script: "gradle migrateDatabase", label: "Composer")
                         }
