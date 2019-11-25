@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DB_HOST = 'mysql_db_dev_tools'
+        DB_HOST = '192.168.0.2'
         DB_DATABASE = 'api_database'
     }
     stages {
