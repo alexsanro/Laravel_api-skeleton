@@ -50,7 +50,7 @@ pipeline {
         stage('SonarQube') {
             steps{
                 script{
-                    customImage.inside("--network ${NETWORK}") { 
+                    customImage.inside("--network ${NETWORK} --link sonarqube_dev_tools") { 
                         withSonarQubeEnv('sonarqube') {
                             sh(script: "gradle sonarScanner", label: "Sonarqube scanner")
                         }
