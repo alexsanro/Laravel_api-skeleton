@@ -49,8 +49,8 @@ pipeline {
         }
         stage('SonarQube') {
             steps{
-                withSonarQubeEnv('sonarqube') {
-                    script{
+                script{
+                    withSonarQubeEnv('sonarqube') {
                         sh(script: "gradle sonarScanner", label: "Sonarqube scanner")
                     }
                 }
