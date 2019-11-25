@@ -49,8 +49,10 @@ pipeline {
         }
         stage('SonarQube') {
             steps{
-                withSonarQubeEnv('sonarqube') { // If you have configured more than one global server connection, you can specify its name
-                    sh(script: "gradle sonarScanner", label: "Sonarqube scanner")
+                withSonarQubeEnv('sonarqube') {
+                    script{
+                        sh(script: "gradle sonarScanner", label: "Sonarqube scanner")
+                    }
                 }
             }
         }
