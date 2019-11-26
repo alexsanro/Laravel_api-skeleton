@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DB_HOST = '192.168.0.2'
+        DB_HOST = '172.26.0.2'
         DB_DATABASE = 'api_database'
     }
     stages {
