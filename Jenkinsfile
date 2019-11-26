@@ -13,7 +13,7 @@ pipeline {
                 }
             }
         }
-        /*stage('Build') {
+        stage('Build') {
             steps {
                 script{
                     customImage.inside("--network ${NETWORK}") {
@@ -46,7 +46,7 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
         stage('SonarQube') {
             steps{
                 script{
