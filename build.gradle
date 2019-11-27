@@ -1,3 +1,34 @@
+class database {
+    def databaseHost = "localhost";
+    def databaseName = "api_database"; 
+    def databaseUser = "root";
+    def databasePassword = "1234";
+    def databasePort = 3306
+
+    void setDatabaseVariables(){
+        
+        if(System.getenv("DB_HOST")){
+            this.databaseHost = System.getenv("DB_HOST"); 
+        }
+
+        if(System.getenv("DB_DATABASE")){
+            this.databaseName = System.getenv("DB_DATABASE");
+        }
+
+        if(System.getenv("DB_USERNAME")){
+            this.databaseUser = System.getenv("DB_USERNAME"); 
+        }
+
+        if(System.getenv("DB_PASSWORD")){
+            this.databasePassword = System.getenv("DB_PASSWORD");
+        }
+
+        if(System.getenv("DB_PORT")){
+            this.databasePort = System.getenv("DB_PORT");
+        }
+    }
+}
+
 task cleanProjectFolders(type: Delete){
     group = 'App'
     description = 'Elimina las carpetas generadas dinamicamente'
@@ -33,8 +64,13 @@ task cleanDatabase(type: Exec){
     group = 'Database'
     description = 'Limpia la base de datos'
 
+    def databaseClass = new database();
+    databaseClass.setDatabaseVariables();
+
+    def urlHost = "jdbc:mysql://" + databaseClass.databaseHost + ":"+ databaseClass.databasePort +"/" + databaseClass.databaseName
+    
     executable "sh"
-    args "-c", "flyway -configFiles=./database/sql/flyway.conf clean -user=root -password=1234"
+    args "-c", "flyway clean -configFiles=./database/sql/flyway.conf -user=" + databaseClass.databaseUser + " -password=" + databaseClass.databasePassword + " -url=${urlHost}" 
 }
 
 task migrateDatabase(type: Exec) {
@@ -43,8 +79,14 @@ task migrateDatabase(type: Exec) {
 
     dependsOn cleanDatabase
 
+    def databaseClass = new database();
+    databaseClass.setDatabaseVariables();
+    
+    def urlHost = "jdbc:mysql://" + databaseClass.databaseHost + ":"+ databaseClass.databasePort + "/" + databaseClass.databaseName
+
     executable "sh"
-    args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=root -password=1234"
+    args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=" + 
+        databaseClass.databaseUser + " -password=" + databaseClass.databasePassword + " -url=${urlHost}" 
 }
 
 task sonarScanner(type: Exec){
@@ -65,4 +107,20 @@ task passportToken(type: Exec){
 
     executable "sh"
     args "-c", "php artisan passport:install"
+}
+
+task generateEnvFile(type: Exec){
+    group = 'Build'
+    description = 'Genera el archivo .env'
+
+    executable "sh"
+    args "-c", "cp .env.example .env && php artisan key:generate"
+}
+
+task montaje(type: GradleBuild){
+    group = 'Build'
+    description = 'Montaje automatico de la aplicación cuando es descargada de cero'
+
+    tasks = ['composer', 'generateEnvFile',
+                'cleanDatabase', 'migrateDatabase', 'passportToken']
 }
