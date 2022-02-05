@@ -1,7 +1,7 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 RUN apt-get update -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && \
-    apt-get install -y php7.2 php7.2-xml php7.2-mysql php-mbstring zip curl npm php7.2-xdebug openjdk-8-jdk wget git
+    apt-get install -y php php-mysql php-mbstring php-xml zip curl npm openjdk-8-jdk wget git
 RUN curl -s https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
@@ -23,9 +23,9 @@ ENV GRADLE_HOME /opt/gradle-5.6
 ENV PATH $PATH:/opt/gradle-5.6/bin
 
 WORKDIR /usr/local/bin
-RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/6.0.6/flyway-commandline-6.0.6.tar.gz -o flyway-commandline-6.0.6.tar.gz \
-  && tar -xzf flyway-commandline-6.0.6.tar.gz --strip-components=1 \
-  && rm flyway-commandline-6.0.6.tar.gz
+RUN curl -L https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.1.0/flyway-commandline-8.1.0.tar.gz -o flyway-commandline-8.1.0.tar.gz \
+  && tar -xzf flyway-commandline-8.1.0.tar.gz --strip-components=1 \
+  && rm flyway-commandline-8.1.0.tar.gz
 
 EXPOSE 8000
 WORKDIR /app

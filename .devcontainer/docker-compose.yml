@@ -9,23 +9,26 @@ services:
     ports:
       - "8000:8000"
     links:
-      - api_db
+      - api-db
       - sonarqube
     volumes:
       - ../:/app
     networks:
       - app-network
-    environment:
-      DB_USERNAME: root
-      DB_PASSWORD: 1234
-      DB_HOST: api_db
-  api_db:
+    environment: 
+      - DB_HOST=api-db
+      - DB_DATABASE=api_database
+      - DB_USERNAME=root
+      - DB_PASSWORD=1234
+  api-db:
     image: mysql:5.7
+    command: mysqld --sql_mode=""
+    container_name: api-db
     ports:
       - "3306:3306"
     environment:
-      MYSQL_DATABASE: api_database
-      MYSQL_ROOT_PASSWORD: 1234
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=api_database
     networks:
       - app-network
   sonarqube:

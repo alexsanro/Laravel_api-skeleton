@@ -40,6 +40,7 @@ task composerInstall(type: Exec){
     group = 'App'
     description = 'Descarga las librerias PHP'
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "composer install"
 }
@@ -48,6 +49,7 @@ task phpUnitTests(type: Exec){
     group = 'Tests'
     description = 'Ejecuta los tests de PHP'
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "./vendor/bin/phpunit"
 }
@@ -56,6 +58,7 @@ task serverStart(type: Exec){
     group = 'App'
     description = 'Levanta el servidor'
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "php artisan serve --host=0.0.0.0 --port=8000"
 }
@@ -69,6 +72,7 @@ task cleanDatabase(type: Exec){
 
     def urlHost = "jdbc:mysql://" + databaseClass.databaseHost + ":"+ databaseClass.databasePort +"/" + databaseClass.databaseName
     
+    ignoreExitValue true
     executable "sh"
     args "-c", "flyway clean -configFiles=./database/sql/flyway.conf -user=" + databaseClass.databaseUser + " -password=" + databaseClass.databasePassword + " -url=${urlHost}" 
 }
@@ -84,6 +88,7 @@ task migrateDatabase(type: Exec) {
     
     def urlHost = "jdbc:mysql://" + databaseClass.databaseHost + ":"+ databaseClass.databasePort + "/" + databaseClass.databaseName
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "flyway -configFiles=./database/sql/flyway.conf migrate -user=" + 
         databaseClass.databaseUser + " -password=" + databaseClass.databasePassword + " -url=${urlHost}" 
@@ -93,6 +98,7 @@ task sonarScanner(type: Exec){
     group = 'Tests'
     description = 'Ejecuta sonar-scanner'
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "sonar-scanner"
 }
@@ -105,6 +111,7 @@ task passportToken(type: Exec){
     dependsOn cleanDatabase
     dependsOn migrateDatabase
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "php artisan passport:install"
 }
@@ -113,6 +120,7 @@ task generateEnvFile(type: Exec){
     group = 'Build'
     description = 'Genera el archivo .env'
 
+    ignoreExitValue true
     executable "sh"
     args "-c", "cp .env.example .env && php artisan key:generate"
 }
