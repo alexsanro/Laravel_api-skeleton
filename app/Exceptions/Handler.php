@@ -53,8 +53,10 @@ class Handler extends ExceptionHandler
     /**
      * CUANDO NO ESTA AUTENTIFICADO Y POR TANTO NO TIENE PERMISOS
      */
-	protected function unauthenticated($request, AuthenticationException $exception)
+	/*protected function unauthenticated($request, AuthenticationException $exception)
 	{
+        //var_dump($request);
+        //var_dump( $exception);
 		return response()->json(['error' => 'No se pue'], 401);
-	}
+	}*/
 }

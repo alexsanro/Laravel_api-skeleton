@@ -37,16 +37,22 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        error_log("ddd222");
+        //echo "hola";
+        //var_dump("dddad");
+        $hola = var_dump($request->json());
+        error_log($request->password);
         $request->validate([
-            'email'       => 'required|string|email',
-            'password'    => 'required|string',
-            'remember_me' => 'boolean'
+            'username'       => 'required',
+            'password'    => 'required',
         ]);
-
+        error_log("dd231");
         $credentials = request(['email', 'password']);
+        die(var_dump($credentials));
+        error_log($credentials);
         if (!Auth::attempt($credentials)) {
             return response()->json([
-                'message' => 'Unauthorized'
+                'message' => 'Error chinga'
             ], 401);
         }
 

@@ -12,5 +12,5 @@
 */
 
 Route::fallback(function () {
-    return response()->json(['message' => 'Not Found.'], 404);
+    return response()->json(['message' => 'Not Found.web'], 404);
 })->name('api.fallback.404');

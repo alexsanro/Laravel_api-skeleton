@@ -113,7 +113,7 @@ task passportToken(type: Exec){
 
     ignoreExitValue true
     executable "sh"
-    args "-c", "php artisan passport:install"
+    args "-c", "php artisan passport:install --force"
 }
 
 task generateEnvFile(type: Exec){
