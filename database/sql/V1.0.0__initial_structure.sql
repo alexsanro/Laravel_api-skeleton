@@ -36,6 +36,7 @@ CREATE TABLE `oauth_clients` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `provider` varchar(100) COLLATE utf8mb4_unicode_ci NULL,
   `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `personal_access_client` tinyint(1) NOT NULL,
